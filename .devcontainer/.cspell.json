@@ -1,0 +1,15 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "dbaeumer",
+    "esbenp",
+    "dsznajder",
+    "bradlc",
+    "eamodio",
+    "ritwickdey",
+    "devcontainers",
+    "seccomp"
+  ],
+  "ignorePaths": ["node_modules/**", "dist/**", "coverage/**"]
+}

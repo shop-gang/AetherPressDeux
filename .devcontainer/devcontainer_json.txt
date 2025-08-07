@@ -14,7 +14,7 @@
   // --- LIFECYCLE HOOKS ---
   // Wait for the postCreateCommand to complete before allowing connection.
   "waitFor": "onCreateCommand",
-
+    
   // Install dependencies in all workspaces (server, shared, client)
   "postCreateCommand": "cd client && npm install && cd ../server && npm install express puppeteer && npm install --save-dev nodemon && cd ..",
 
@@ -22,18 +22,12 @@
 
   //"postCreateCommand": "npm install -g concurrently",
 
-  //x "postStartCommand": "bash ./start-app.sh",
-
-  "mounts": [
-    "source=${localEnv:HOME}/.npm,target=/home/node/.npm,type=bind,consistency=cached",
-    "source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
-  ],
-  "postStartCommand": "sudo chown -R node:node /home/node/.npm",
+  "postStartCommand": "bash ./start-app.sh",
 
   /**
   "postAttachCommand": {
     //"client + server": "concurrently 'cd ./client && npm run dev' 'cd ./server && npm run dev'"
-    "client + server": "bash ./start-app.sh"
+    //x "client + server": "bash ./start-app.sh"
   },
   **/
 
@@ -55,17 +49,10 @@
         "bradlc.vscode-tailwindcss",
         "prisma.prisma",
         "ms-azuretools.vscode-postgresql",
-        "vscode-icons-team.vscode-icons",
-        "eamodio.gitlens",
-        "streetsidesoftware.code-spell-checker",
-        "ritwickdey.LiveServer",
-        "ms-vscode.vscode-typescript-next"
+        "vscode-icons-team.vscode-icons"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.env.linux": {
-          "PATH": "${containerEnv:PATH}:/usr/local/share/npm-global/bin"
-        },
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "[javascript]": {
@@ -74,59 +61,35 @@
         "[json]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
-        },
-        "files.autoSave": "onFocusChange",
-
         "workbench.iconTheme": "vscode-icons",
         "github.copilot.enable": {
           "*": true,
           "plaintext": false,
           "markdown": true,
           "scminput": false
-        },
-        "cSpell.customDictionaries": {
-          "project-words": {
-            "name": "project-words",
-            "path": "${workspaceFolder}/.devcontainer/.cspell.json",
-            "addWords": true
-          }
         }
       }
     }
   },
 
   // --- PORT FORWARDING ---
-  "forwardPorts": [5173, 3000],
+  "forwardPorts": [5173, 3000, 5432],
   "portsAttributes": {
     "5173": {
       "label": "client (Vite/Svelte)",
       "onAutoForward": "openPreview"
     },
-    "3000": { "label": "server (Express/Node.js)" }
+    "3000": { "label": "server (Express/Node.js)" },
+    "5432": { "label": "database (PostgreSQL)" }
   },
 
   // --- GENERAL SETTINGS ---
   "remoteEnv": {
-    "NODE_ENV": "development",
-    "DEBUG": "*",
-    "CHROME_PATH": "/usr/bin/google-chrome",
     "DATABASE_URL": "postgresql://${localEnv:POSTGRES_USER}:${localEnv:POSTGRES_PASSWORD}@db:5432/${localEnv:POSTGRES_DB}",
     "GEMINI_API_URL": "${localEnv:GEMINI_API_URL}",
     "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}"
   },
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    },
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
   "remoteUser": "node",
-  "updateRemoteUserUID": true,
-  "securityOpt": ["seccomp=unconfined"],
-  "capAdd": ["SYS_PTRACE"],
   "hostRequirements": {
     "cpus": 4
   }
