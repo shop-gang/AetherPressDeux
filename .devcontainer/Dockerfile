@@ -16,7 +16,11 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:22-bullseye
 #   fi
 
 RUN apt-get update && apt-get install -y \
+    sqlite3 \
     postgresql-client \
+    curl \
+    jq \
+    git \
     # Chrome dependencies for Puppeteer
     libnspr4 \
     libnss3 \
@@ -49,10 +53,13 @@ RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. [Optional] You can add other setup commands here.
-# For example, installing global npm packages.
-#
-# RUN su node -c "npm install -g pnpm"
+# 3. Install global npm packages
+RUN su node -c "npm install -g \
+    typescript@5.2.2 \
+    nodemon@3.0.1 \
+    concurrently@8.2.1 \
+    prettier@3.0.3 \
+    eslint@8.48.0"
 
 # This Dockerfile is intentionally simple because the base image is very capable.
 # You only need to add lines here if you want to customize the container's

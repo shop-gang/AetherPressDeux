@@ -24,10 +24,7 @@
 
   //x "postStartCommand": "bash ./start-app.sh",
 
-  "mounts": [
-    "source=${localEnv:HOME}/.npm,target=/home/node/.npm,type=bind,consistency=cached",
-    "source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
-  ],
+  // The .npm directory needs to be owned by 'node' to avoid permission issues when installing packages
   "postStartCommand": "sudo chown -R node:node /home/node/.npm",
 
   /**
