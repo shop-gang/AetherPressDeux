@@ -21,6 +21,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     jq \
     git \
+    python3 \
+    python3-pip \
+    vim \
+    htop \
+    net-tools \
+    dnsutils \
+    postgresql-client-common \
+    postgresql-client \
+    tree \
     # Chrome dependencies for Puppeteer
     libnspr4 \
     libnss3 \
@@ -59,7 +68,16 @@ RUN su node -c "npm install -g \
     nodemon@3.0.1 \
     concurrently@8.2.1 \
     prettier@3.0.3 \
-    eslint@8.48.0"
+    eslint@8.48.0 \
+    npm-check-updates@16.14.4 \
+    typescript-language-server@3.3.2"
+
+# 4. Install Python packages
+RUN pip3 install --no-cache-dir \
+    pytest \
+    pylint \
+    black \
+    httpie
 
 # This Dockerfile is intentionally simple because the base image is very capable.
 # You only need to add lines here if you want to customize the container's

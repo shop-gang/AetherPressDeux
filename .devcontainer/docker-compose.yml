@@ -1,10 +1,7 @@
-# docker-compose.yml
+version: "3.8"
 
 services:
-  # 1. This is your main application/development container service
   app:
-    # We will build the dev container image using the instructions in devcontainer.json
-    # The context '.' refers to the current directory
     build:
       context: .
       dockerfile: Dockerfile
